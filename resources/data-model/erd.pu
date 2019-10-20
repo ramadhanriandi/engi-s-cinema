@@ -1,0 +1,70 @@
+@startuml
+hide circle
+skinparam linetype ortho
+left to right direction
+entity Users {
+    **user_id**
+    --
+    username
+    email
+    phone 
+    password
+    session
+    profile_picture
+}
+
+entity Movies {
+    **movie_id**
+    --
+    movie_name
+    image
+    rating
+    description
+}
+
+entity Movie_Showings {
+    **movie_showing_id**
+    --
+    **movie_id** <<FK>>
+    show_date
+    show_time
+}
+
+entity Transactions {
+    **transaction_id**
+    --
+    **user_id** <<FK>>
+    **movie_showing_id** <<FK>>
+    **seat_number** <<FK>>
+    transaction_for_date
+    transaction_for_time
+    transaction_made_date
+}
+
+entity Seats {
+    **movie_showing_id**
+    **seat_number**
+    --
+    status
+}
+
+entity Reviews{
+    **review_id**
+    --
+    **user_id** <<FK>>
+    **movie_id** <<FK>>
+    **transaction_id** <<FK>>
+    rating
+    description
+}
+
+Users ||--o{ Transactions
+Movies ||--o{ Movie_Showings
+Movie_Showings ||--{ Seats
+Transactions |o--|| Seats
+Movie_Showings ||--o{ Transactions
+Movies ||--o{ Reviews
+Users ||--o{ Reviews
+Transactions ||--o| Reviews
+@enduml
+ 
